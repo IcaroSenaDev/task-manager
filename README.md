@@ -24,7 +24,7 @@ O sistema permite ao usuário:
 Primeiro, clone este repositório para a sua máquina local:
 
 ```bash
-git clone https://github.com/seu-usuario/task-manager.git
+git clone https://github.com/IcaroSenaDev/task-manager.git
 cd task-manager
 ```
 
