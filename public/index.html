@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Caminho para o CSS na pasta public -->
+</head>
+<body>
+  <h1>Gerenciador de Tarefas</h1>
+
+  <div>
+    <input type="text" id="taskTitle" placeholder="Digite o título da tarefa">
+    <button onclick="addTask()">Adicionar Tarefa</button>
+  </div>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    // Funções JavaScript para interagir com a API
+    async function loadTasks() {
+      const response = await fetch('/tasks');
+      const tasks = await response.json();
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = task.title;
+        taskList.appendChild(li);
+      });
+    }
+
+    async function addTask() {
+      const taskTitle = document.getElementById('taskTitle').value;
+      if (taskTitle) {
+        const response = await fetch('/tasks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title: taskTitle })
+        });
+        const newTask = await response.json();
+        loadTasks();
+        document.getElementById('taskTitle').value = '';
+      }
+    }
+
+    // Carregar tarefas ao inicializar a página
+    loadTasks();
+  </script>
+</body>
+</html>
